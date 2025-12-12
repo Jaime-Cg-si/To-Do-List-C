@@ -1,0 +1,28 @@
+#Explaining my gitignore file:
+
+#Excluding all of the object files
+*.o
+
+#the files without an extension
+*
+
+!*.*
+
+#output files
+a.out
+*.exe 
+*.dll
+
+
+#dir
+build/
+bin/
+
+#vscode files
+.vscode/
+
+*.swp
+
+#OS
+.DS_Store
+Thumbs.db
