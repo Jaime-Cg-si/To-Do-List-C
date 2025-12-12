@@ -3,10 +3,6 @@
 #Excluding all of the object files
 *.o
 
-#the files without an extension
-*
-
-!*.*
 
 #output files
 a.out
