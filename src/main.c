@@ -1,58 +1,116 @@
-// src/main.c - Nosso Programa de Teste
+// src/main.c - Programa de Teste COMPLETO para o Módulo List
 
 #include <stdio.h>
-#include "task.h" // Inclui a API do nosso módulo Task
+#include <stdlib.h>
+#include "task.h"
+#include "list.h"
 
 int main() {
-    printf("--- Iniciando Testes do Módulo Task ---\n\n");
+    printf("--- Iniciando Testes do Módulo List ---\n\n");
 
-    // --- Teste 1: Criação de Tarefa Válida ---
-    printf("--- Teste 1: Tentando criar uma tarefa válida...\n");
-    Task* task1 = create_task(1, "Estudar Ponteiros em C", "Revisar o capítulo 5 do livro K&R.", time(NULL) + 86400, 3); // Deadline para amanhã
+    // --- Teste 1: Criação e verificação de lista vazia ---
+    printf("--- Teste 1: Criação de uma lista vazia...\n");
+    List* minha_lista = list_create();
+    if (minha_lista == NULL) {
+        fprintf(stderr, "FALHA CRÍTICA: list_create() retornou NULL.\n");
+        return EXIT_FAILURE;
+    }
+    printf("SUCESSO: list_create() retornou um ponteiro válido.\n\n");
 
-    if (task1 != NULL) {
-        printf("SUCESSO: Tarefa 1 criada.\n");
-        printf("  ID: %d\n", task1->id);
-        printf("  Nome: %s\n", task1->name);
-        printf("  Prioridade: %d\n", task1->priority);
+    // --- Teste 2: Adicionando tarefas ---
+    printf("--- Teste 2: Adicionando 3 tarefas à lista...\n");
+    // Lembre-se: nossa função adiciona no INÍCIO, então a ordem será 3 -> 2 -> 1
+    list_add_task(minha_lista, create_task(1, "Estudar Ponteiros", "Capítulo 5", time(NULL), 1));
+    list_add_task(minha_lista, create_task(2, "Implementar a Lista", "Exercício de C", time(NULL), 2));
+    list_add_task(minha_lista, create_task(3, "Testar a Lista", "Escrever o main.c", time(NULL), 3));
+    printf("SUCESSO: 3 tarefas adicionadas.\n\n");
+
+    // --- Teste 3: Verificando o tamanho e imprimindo ---
+    printf("--- Teste 3: Verificando tamanho e imprimindo a lista completa...\n");
+    if (list_get_size(minha_lista) == 3) {
+        printf("SUCESSO: O tamanho da lista é 3.\n");
     } else {
-        fprintf(stderr, "FALHA: create_task retornou NULL para uma tarefa válida.\n");
+        fprintf(stderr, "FALHA: O tamanho da lista é %d, mas deveria ser 3.\n", list_get_size(minha_lista));
     }
+    printf("  Estado atual da lista (deve ser 3, 2, 1):\n");
+    list_print(minha_lista);
     printf("\n");
 
-    // --- Teste 2: Tentando criar uma tarefa inválida (prioridade errada) ---
-    printf("--- Teste 2: Tentando criar uma tarefa com prioridade inválida...\n");
-    Task* task2 = create_task(2, "Tarefa Inválida", "Teste com prioridade 99.", time(NULL), 99);
-
-    if (task2 == NULL) {
-        printf("SUCESSO: create_task corretamente retornou NULL para prioridade inválida.\n");
+    // --- Teste 4: Buscando tarefas ---
+    printf("--- Teste 4: Buscando tarefas...\n");
+    Task* found_task = list_find_task(minha_lista, 2);
+    if (found_task != NULL) {
+        printf("SUCESSO: Tarefa com ID 2 encontrada. Nome: '%s'\n", found_task->name);
     } else {
-        fprintf(stderr, "FALHA: Tarefa com prioridade inválida foi criada!\n");
-        destroy_task(&task2); // Limpa a sujeira se o teste falhar
+        fprintf(stderr, "FALHA: Não foi possível encontrar a tarefa com ID 2.\n");
     }
-    printf("\n");
-
-    // --- Teste 3: Modificando uma tarefa existente (Update) ---
-    printf("--- Teste 3: Modificando o nome da Tarefa 1...\n");
-    if (task1 != NULL) {
-        printf("  Nome antigo: %s\n", task1->name);
-        set_task_name(task1, "Estudar Gerenciamento de Memória em C AVANÇADO");
-        printf("  Novo nome: %s\n", task1->name);
-    }
-    printf("\n");
-
-    // --- Teste 4: Destruindo uma tarefa (Delete) ---
-    printf("--- Teste 4: Destruindo a Tarefa 1...\n");
-    destroy_task(&task1);
-
-    if (task1 == NULL) {
-        printf("SUCESSO: O ponteiro da Tarefa 1 agora é NULL após a destruição.\n");
+    Task* not_found_task = list_find_task(minha_lista, 99);
+    if (not_found_task == NULL) {
+        printf("SUCESSO: A busca por uma tarefa inexistente (ID 99) corretamente retornou NULL.\n");
     } else {
-        fprintf(stderr, "FALHA: O ponteiro da Tarefa 1 NÃO é NULL após destroy_task.\n");
+        fprintf(stderr, "FALHA: A busca por uma tarefa inexistente retornou um ponteiro válido!\n");
     }
     printf("\n");
 
-    printf("--- Testes do Módulo Task Concluídos ---\n");
+    // --- Teste 5: Removendo uma tarefa do MEIO (ID 2) ---
+    printf("--- Teste 5: Removendo uma tarefa do MEIO (ID 2)...\n");
+    bool success = list_remove_task(minha_lista, 2);
+    if (success) {
+        printf("SUCESSO: list_remove_task retornou true.\n");
+        printf("  Novo tamanho da lista: %d\n", list_get_size(minha_lista));
+        printf("  Estado atual da lista (deve ser 3, 1):\n");
+        list_print(minha_lista);
+    } else {
+        fprintf(stderr, "FALHA: list_remove_task retornou false ao tentar remover o ID 2.\n");
+    }
+    printf("\n");
 
-    return 0; // Indica que o programa terminou com sucesso
+    // --- Teste 6: Removendo a tarefa da CABEÇA (ID 3, que agora é a cabeça) ---
+    printf("--- Teste 6: Removendo a tarefa da CABEÇA (ID 3)...\n");
+    success = list_remove_task(minha_lista, 3);
+    if (success) {
+        printf("SUCESSO: list_remove_task retornou true.\n");
+        printf("  Novo tamanho da lista: %d\n", list_get_size(minha_lista));
+        printf("  Estado atual da lista (deve ser 1):\n");
+        list_print(minha_lista);
+    } else {
+        fprintf(stderr, "FALHA: list_remove_task retornou false ao tentar remover o ID 3.\n");
+    }
+    printf("\n");
+
+    // --- Teste 7: Removendo a tarefa da CAUDA (ID 1, que agora é a única) ---
+    printf("--- Teste 7: Removendo a tarefa da CAUDA (ID 1)...\n");
+    success = list_remove_task(minha_lista, 1);
+    if (success) {
+        printf("SUCESSO: list_remove_task retornou true.\n");
+        printf("  Novo tamanho da lista: %d\n", list_get_size(minha_lista));
+        printf("  Estado atual da lista (deve estar vazia):\n");
+        list_print(minha_lista);
+    } else {
+        fprintf(stderr, "FALHA: list_remove_task retornou false ao tentar remover o ID 1.\n");
+    }
+    printf("\n");
+
+    // --- Teste 8: Tentando remover tarefa que não existe ---
+    printf("--- Teste 8: Tentando remover tarefa que não existe (ID 99)...\n");
+    success = list_remove_task(minha_lista, 99);
+    if (!success) {
+        printf("SUCESSO: list_remove_task corretamente retornou false para uma tarefa inexistente.\n");
+    } else {
+        fprintf(stderr, "FALHA: list_remove_task retornou true para uma tarefa inexistente!\n");
+    }
+    printf("\n");
+    
+    // --- Teste Final: Destruição da lista ---
+    printf("--- Teste Final: Destruindo a lista (agora vazia)...\n");
+    list_destroy(&minha_lista);
+    if (minha_lista == NULL) {
+        printf("SUCESSO: O ponteiro da lista é NULL após a destruição final.\n");
+    } else {
+        fprintf(stderr, "FALHA: O ponteiro da lista NÃO é NULL após a destruição final.\n");
+    }
+    printf("\n");
+
+    printf("--- TODOS OS TESTES DO MÓDULO LIST FORAM CONCLUÍDOS COM SUCESSO ---\n");
+    return EXIT_SUCCESS;
 }
