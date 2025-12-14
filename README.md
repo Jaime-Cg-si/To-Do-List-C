@@ -1,25 +1,27 @@
 # C-Task-Manager
 
-A simple yet powerful command-line task manager built purely in C, focusing on efficient memory management and a clean, modular project structure. This project is a learning exercise to deepen skills in C programming, data structures, and professional development workflows.
+A simple yet powerful command-line task manager built purely in C, focusing on efficient memory management and a clean, modular project structure. This project serves as a practical exercise in applying core computer science concepts, including data structures (singly linked lists), memory-safe programming, and professional development workflows in C.
 
 ## Project Status
 
-**Current Phase:** Core logic implementation.
-*   ✅ **Module `task`:** Fully implemented and tested. Provides a robust, memory-safe API for creating, updating, and destroying individual task objects.
-*   ⏳ **Module `list`:** In development. This module will manage a linked list of tasks.
-*   ❌ **CLI (Command-Line Interface):** Not started. The main executable currently serves as a test driver for the existing modules.
+**Current Phase:** Core Data Structures and Logic Implementation.
+*   ✅ **Module `task`:** Fully implemented and tested. Provides a robust, memory-safe API for all CRUD operations on individual task objects.
+*   ✅ **Module `list`:** Fully implemented. Provides a complete API for managing a singly linked list of tasks, including creation, destruction, addition, removal, and searching.
+*   ❌ **CLI (Command-Line Interface):** Not started. The `main` executable currently serves as a test driver for the core modules.
 
 ## Features
 
 ### Implemented
-*   **Modular Task Object:** A dedicated `task` module with a clean public API (`task.h`).
-*   **Dynamic Memory Management:** Safe allocation and deallocation for tasks and their properties.
-*   **Data Validation:** Robust validation of all inputs to ensure data integrity (e.g., priority levels, valid deadlines).
+*   **Modular Task & List APIs:** Dedicated modules for `task` and `list` with clean public APIs (`task.h`, `list.h`) that enforce encapsulation.
+*   **Singly Linked List Data Structure:** A from-scratch implementation of a singly linked list to manage a dynamic collection of tasks.
+*   **Full CRUD Functionality:** Both modules support complete Create, Read, Update (for tasks), and Delete operations.
+*   **Efficient Insertion:** Task addition to the list is an O(1) operation, ensuring high performance.
+*   **Robust Memory Management:** Safe, dynamic allocation and deallocation for all data structures, preventing memory leaks.
+*   **Defensive Data Validation:** Rigorous validation of all inputs to ensure data integrity and prevent common C pitfalls.
 
 ### Planned
-*   A linked-list data structure to manage multiple tasks.
 *   A command-line interface for user interaction (add, view, update, delete tasks).
-*   Saving and loading tasks from a file.
+*   Saving and loading tasks to/from a file (persistence).
 *   Sorting and filtering tasks (by priority, deadline, etc.).
 
 ## Getting Started
@@ -42,28 +44,24 @@ To compile and run this project, you will need:
     ```bash
     make
     ```
-    This will compile all source files and create the `task_manager` executable in the root directory.
+    This will compile all source files and create the `task_manager` executable.
 
-3.  **Run the tests:**
+3.  **Run the integrated tests:**
     ```bash
     ./task_manager
     ```
-    Currently, this runs a "smoke test" to verify the functionality of the `task` module.
-
-## Usage
-
-The final application will be a command-line tool. Examples will be added here once the CLI is implemented.
-
-For now, the main entry point (`src/main.c`) is used as a test driver to validate the implemented modules.
+    The executable currently serves as a test driver that validates the functionality of the `task` and `list` modules.
 
 ## Technical Overview
 
-The project is architected around modularity and safety. The core component completed is the `task` module, which exposes a public API via `include/task.h` for all CRUD (Create, Read, Update, Delete) operations on a single task.
+The project is architected around modularity, safety, and efficiency, implementing classic C programming patterns.
 
 Key technical decisions implemented so far include:
-*   **Header/Implementation Separation:** A clear distinction between the public interface (`.h`) and the private implementation (`.c`) to enforce encapsulation.
-*   **Defensive Programming:** All functions rigorously validate their input parameters (e.g., checking for `NULL` pointers) and internal state to prevent common C pitfalls.
-*   **Strict Memory Management:** No memory leaks. All dynamically allocated memory is meticulously tracked and freed, using tools like `valgrind` for verification (a future step). The `destroy_task` function uses a pointer-to-pointer (`Task**`) to safely nullify dangling pointers after freeing memory.
+*   **Data Structure Implementation:** A custom **singly linked list** was built from scratch to manage tasks. This choice provides dynamic resizing and highly efficient O(1) insertion at the head of the list.
+*   **Header/Implementation Separation:** A clear distinction between public interfaces (`include/*.h`) and private implementations (`src/*.c`) to enforce encapsulation and reduce module coupling.
+*   **Defensive Programming:** All API functions rigorously validate their input parameters (e.g., checking for `NULL` pointers) and internal state.
+*   **Advanced Pointer-to-Pointer Usage:** The `destroy` functions for both `task` and `list` use a pointer-to-pointer (`Task**`, `List**`) to safely nullify the caller's pointer after freeing memory, effectively preventing dangling pointers.
+*   **Single-Pass Removal Algorithm:** The `list_remove_task` function implements an efficient "trailing pointer" technique to find and remove a node from the linked list in a single pass, demonstrating a core data structure algorithm.
 
 ## Contributing
 

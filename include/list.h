@@ -30,7 +30,7 @@ typedef struct List{
  @return Returns a pointer to the list
  */
 
-List* create_list();
+List* list_create();
 
 /**
  @brief Destroyes a List
