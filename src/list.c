@@ -2,6 +2,8 @@
 #include <errno.h> //For perror
 #include "list.h" //Public API
 #include <stdlib.h> //For malloc() and free()
+#include <time.h> //For time()
+#include "task.h" //For create_default_task()
 
 
 
@@ -21,6 +23,7 @@ List* list_create(){
     //Initial attributions
     new_list->head = NULL;
     new_list->size = 0;
+    new_list->next_task_id = 1;
 
     return new_list;
 }
@@ -56,19 +59,37 @@ void list_destroy(List** list_ptr){
  @brief Implementation of list_add_task()
 */
 
-void list_add_task(List* list, Task* task){
+void list_add_task(List* list, const char* task_name){
 
-    if (list == NULL || task == NULL){
-        fprintf(stderr, "ERROR : in list_add_task() : invalid parameter.\n");
+    if (list == NULL || task_name == NULL){
+        fprintf(stderr, "ERROR : in list_add_task() : Invalid parameter.\n");
+        return;
+    }
+   
+    Task* new_task = create_default_task(task_name);
+
+    new_task-> id = list->next_task_id; //Setting task id correctly
+    list->next_task_id++; //Adjusting available task id
+
+    if (is_task_valid(new_task) == false){
+        frpintf(stderr, "ERROR : in list_add_task() : failed to create task.\n");
         return;
     }
 
-    /*To efficiency purposes, list_add_task()
-    shall add a new task always on the beggining*/
+    if (list->head == NULL){
+        //First task
+        list->head = new_task;
+        list->size++;
+        return;
+    }
 
-    task->next = list->head; //Connecting the new task with the previous list
-    list->head = task; //Connecting the list with the new task
-    list->size++; //Adjusting the list's size
+    else{
+        //Internal task
+        new_task->next = list->head;
+        list->head = new_task;
+        list->size++;
+        return;
+    }
 
 }
 

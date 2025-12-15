@@ -42,6 +42,20 @@ it shall return a pointer to it. Otherwise, it returns NULL
 Task* create_task(int id, const char* name, const char* description, time_t deadline, int priority);
 
 /*
+Creates a deafult Task.
+Parameters:
+task_name - name of the task
+Return : returns a pointer to the task
+By default, it sets the tasks instances as:
+id = 0;
+priority = 3
+deadline = 1 day
+description = same as name
+*/
+
+Task* create_default_task(const char* task_name);
+
+/*
 Verify if a task is or not valid.
 Parameters:
 task - pointer to task to be evaluated

@@ -19,6 +19,7 @@
 typedef struct List{
     Task* head; //pointer to the first task on the list
     int size; //number of tasks on the list
+    int next_task_id; //Next available task id
 }List;
 
 // --- Public API Function Prototypes ---
@@ -67,9 +68,11 @@ Task* list_find_task(const List* list, int task_id);
 /**
  @brief Adds a task to a list
  @param list List of tasks
- @param task Task to be added
+ @param task_name name of the task to be added
+ @par By default, this function assumes the rest of the task instance as 
+ @par follows: deadline = 1 day, priority = 3; description = <copy of the name>
 */
-void list_add_task(List* list, Task* task);
+void list_add_task(List* list, const char* task_name);
 
 /**
  @brief Removes a task from a list

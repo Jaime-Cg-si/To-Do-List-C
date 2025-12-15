@@ -1,7 +1,8 @@
-#include <stdio.h>
+#include <stdio.h> // For fprintf()
 #include <stdlib.h> //For malloc() and free()
 #include <string.h> //For strcpy()
 #include "task.h" //Our public API
+#include <time.h> //For time()
 
 #define MIN_PRIORITY 1
 #define MAX_PRIORITY 5
@@ -58,6 +59,36 @@ Task* create_task(int id, const char* name, const char* description, time_t dead
         destroy_task(&new_task);
         return NULL;
     }
+
+    return new_task;
+}
+
+/**
+ @brief Implementation of the create_default_task()
+*/
+
+Task* create_default_task(const char* task_name){
+
+    if (task_name == NULL){
+        fprintf(stderr, "ERROR : in create_default_task() : Invalid task name.\n");
+        return NULL;
+    }
+
+    Task* new_task = (Task*) malloc(sizeof(Task)); //Allocating memory for the new task
+    
+    new_task->name = (char*) malloc(sizeof(char) * (strlen(task_name)+1)); //Adding the task name
+    strcpy(new_task->name, task_name);
+
+    new_task-> description = (char*) malloc(sizeof(char)* (strlen(task_name)+1)); //Adding task description
+    strcpy(new_task->description, task_name);
+
+    new_task->priority = 3; //Adding task priority
+    new_task->id = 0; //Adding task id
+
+    time_t now = time(NULL);
+    new_task->deadline = now + (24 * 60 * 60); //Adding task deadline
+
+    new_task->next = NULL;
 
     return new_task;
 }
