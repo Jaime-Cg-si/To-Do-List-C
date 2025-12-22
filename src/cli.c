@@ -1,5 +1,4 @@
 #include "cli.h"
-#include "list.h"
 /**
  @brief Implementation of remove_newline()
  @param str - pointer to the first letter of the string
