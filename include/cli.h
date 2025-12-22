@@ -1,12 +1,12 @@
-#ifndef CLI_H_
-#define CLI_H_
+#ifndef CLI_H
+#define CLI_H
 
-/**
- * @brief Starts the main command-line interface loop.
- * 
- * This function initializes the application, displays a prompt, and enters
- * a loop to read and process user commands until the 'exit' command is given.
- */
-void cli_start();
+#include "list.h" 
+#include <stdbool.h> 
+#include <string.h> 
+#include <stdio.h>
 
-#endif // CLI_H_
+
+void cli_start(List* list);
+
+#endif

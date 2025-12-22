@@ -72,24 +72,16 @@ void list_add_task(List* list, const char* task_name){
     list->next_task_id++; //Adjusting available task id
 
     if (is_task_valid(new_task) == false){
-        frpintf(stderr, "ERROR : in list_add_task() : failed to create task.\n");
+        fprintf(stderr, "ERROR : in list_add_task() : failed to create task.\n");
         return;
     }
 
-    if (list->head == NULL){
-        //First task
-        list->head = new_task;
-        list->size++;
-        return;
-    }
+    
+    new_task->next = list->head;
+    list->head = new_task;
+    list->size++;
+    return;
 
-    else{
-        //Internal task
-        new_task->next = list->head;
-        list->head = new_task;
-        list->size++;
-        return;
-    }
 
 }
 

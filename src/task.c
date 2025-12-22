@@ -75,11 +75,29 @@ Task* create_default_task(const char* task_name){
     }
 
     Task* new_task = (Task*) malloc(sizeof(Task)); //Allocating memory for the new task
+
+    if (new_task == NULL){
+        fprintf(stderr, "ERROR : in create_default_task() : Failed to allocate memory for the task.\n");
+        return NULL;
+    }
     
     new_task->name = (char*) malloc(sizeof(char) * (strlen(task_name)+1)); //Adding the task name
+
+    if (new_task->name == NULL){
+        fprintf(stderr, "ERROR : in create_default_task() : Failed to allocate memory for the task name.\n");
+        free(new_task);
+        return NULL;
+    }
     strcpy(new_task->name, task_name);
 
     new_task-> description = (char*) malloc(sizeof(char)* (strlen(task_name)+1)); //Adding task description
+
+    if (new_task->description == NULL){
+        fprintf(stderr, "ERROR : in create_default_task() : Failed to allocate memory for the task description.\n");
+        free(new_task->name);
+        free(new_task);
+        return NULL;
+    }
     strcpy(new_task->description, task_name);
 
     new_task->priority = 3; //Adding task priority
@@ -244,7 +262,8 @@ void print_task(const Task* task){
     printf("Task id : %d\n", task->id);
     printf("Name: %s\n", task->name);
     printf("Description: %s\n", task->description);
-    printf("Task Priority: %d\n", task->priority);
+    printf("Priority level: %d\n", task->priority);
+    printf("Deadline: %s\n", ctime(&(task->deadline)));
     printf("----------------------------------------\n");
 
 }
