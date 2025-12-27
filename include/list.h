@@ -75,6 +75,13 @@ Task* list_find_task(const List* list, int task_id);
 void list_add_task(List* list, const char* task_name);
 
 /**
+ @brief Adds a Task already created to a list
+ @param list list of tasks
+ @param task task to be added
+*/
+void list_add_task_from_task(List* list, Task* task);
+
+/**
  @brief Removes a task from a list
  @param list List of tasks
  @param task_id Id of task to be removed

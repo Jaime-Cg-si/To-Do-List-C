@@ -18,6 +18,15 @@
 void cli_start(List* list){
 
     bool program_on = true;
+
+    //uploading the previous tasks
+    bool check_upload = load_list_from_csv("tasks.csv", list);
+
+    //checking if the program succesfully uploaded
+    if (!check_upload){
+        fprintf(stderr, "ERROR : in cli_start() : failed to upload file.\n");
+    }
+
     char input_buffer[256];
 
     while (program_on != false){

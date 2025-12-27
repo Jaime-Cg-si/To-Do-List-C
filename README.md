@@ -1,30 +1,35 @@
 # C-Task-Manager
 
-A simple yet powerful command-line task manager built purely in C, focusing on efficient memory management and a clean, modular project structure. This project serves as a practical exercise in applying core computer science concepts, including data structures (singly linked lists), memory-safe programming, and professional development workflows in C.
+A robust and efficient command-line task manager built purely in C, focusing on safe memory management, data persistence, and a clean, modular project structure. This project has evolved from an academic exercise into a fully functional console application.
 
 ## Project Status
 
-**Current Phase:** Core Data Structures and Logic Implementation.
-*   ✅ **Module `task`:** Fully implemented and tested. Provides a robust, memory-safe API for all CRUD operations on individual task objects.
-*   ✅ **Module `list`:** Fully implemented. Provides a complete API for managing a singly linked list of tasks, including creation, destruction, addition, removal, and searching.
-*   ✅ **CLI (Command-Line Interface):** Fully implemented. Provides a robust interface, letting the user decides what to do
-*   ✅ **Data Persistance :** Fully implemented. Provides a csv file saving all the tasks provided as
-input from user.
+**Current Phase:** Functional Command-Line Application (MVP - Minimum Viable Product).
+
+The project is a complete and usable application with the following core features implemented and tested:
+
+*   ✅ **`task` Module:** A complete API for CRUD operations on individual task objects.
+*   ✅ **`list` Module:** A complete API for managing a singly linked list of tasks.
+*   ✅ **Command-Line Interface (CLI):** An interactive user interface that allows for adding, listing, and saving tasks.
+*   ✅ **Data Persistence:** The application state is automatically saved to a `tasks.csv` file on exit and reloaded on startup.
 
 ## Features
 
 ### Implemented
-*   **Modular Task & List APIs:** Dedicated modules for `task` and `list` with clean public APIs (`task.h`, `list.h`) that enforce encapsulation.
+*   **Modular Architecture:** Dedicated modules for `task`, `list`, `file_io`, and `cli` with clean public interfaces (`.h`) that enforce encapsulation.
 *   **Singly Linked List Data Structure:** A from-scratch implementation of a singly linked list to manage a dynamic collection of tasks.
-*   **Full CRUD Functionality:** Both modules support complete Create, Read, Update (for tasks), and Delete operations.
-*   **Efficient Insertion:** Task addition to the list is an O(1) operation, ensuring high performance.
+*   **Interactive User Interface:** A robust CLI that accepts user commands (`add`, `list`, `save`, `exit`).
+*   **Data Persistence in CSV:**
+    *   Automatically saves the task list to a `tasks.csv` file upon exiting the program.
+    *   Automatically loads tasks from `tasks.csv` when the program starts.
+    *   Provides an explicit `save` command for manual persistence.
 *   **Robust Memory Management:** Safe, dynamic allocation and deallocation for all data structures, preventing memory leaks.
-*   **Defensive Data Validation:** Rigorous validation of all inputs to ensure data integrity and prevent common C pitfalls.
+*   **Defensive Data Validation:** Rigorous validation of all inputs to ensure data integrity.
 
 ### Planned
-*   A command-line interface for user interaction (add, view, update, delete tasks).
-*   Saving and loading tasks to/from a file (persistence).
-*   Sorting and filtering tasks (by priority, deadline, etc.).
+*   **Task Management:** Commands to `delete` and `edit` existing tasks.
+*   **Advanced Search:** A `find` command to locate tasks by ID or by keywords in the name/description.
+*   **Sorting and Filtering:** Features to sort tasks (by priority, deadline, etc.).
 
 ## Getting Started
 
@@ -37,36 +42,6 @@ To compile and run this project, you will need:
 ### Installation & Execution
 
 1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
-    cd SEU-REPOSITORIO
-    ```
-
-2.  **Compile the project:**
-    ```bash
-    make
-    ```
-    This will compile all source files and create the `task_manager` executable.
-
-3.  **Run the integrated tests:**
-    ```bash
-    ./task_manager
-    ```
-    The executable currently serves as a test driver that validates the functionality of the `task` and `list` modules.
-
-## Technical Overview
-
-The project is architected around modularity, safety, and efficiency, implementing classic C programming patterns.
-
-Key technical decisions implemented so far include:
-*   **Data Structure Implementation:** A custom **singly linked list** was built from scratch to manage tasks. This choice provides dynamic resizing and highly efficient O(1) insertion at the head of the list.
-*   **Header/Implementation Separation:** A clear distinction between public interfaces (`include/*.h`) and private implementations (`src/*.c`) to enforce encapsulation and reduce module coupling.
-*   **Defensive Programming:** All API functions rigorously validate their input parameters (e.g., checking for `NULL` pointers) and internal state.
-*   **Advanced Pointer-to-Pointer Usage:** The `destroy` functions for both `task` and `list` use a pointer-to-pointer (`Task**`, `List**`) to safely nullify the caller's pointer after freeing memory, effectively preventing dangling pointers.
-*   **Single-Pass Removal Algorithm:** The `list_remove_task` function implements an efficient "trailing pointer" technique to find and remove a node from the linked list in a single pass, demonstrating a core data structure algorithm.
-
-## Contributing
-
-This is a personal learning project, but feedback is welcome. The development follows a simplified GitFlow model:
-- `main` contains stable, tested features.
-- New features are developed in `feature/` branches and merged into `main` upon completion.
+```bash
+    git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+    cd YOUR-REPOSITORY

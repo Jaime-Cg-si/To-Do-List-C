@@ -86,6 +86,24 @@ void list_add_task(List* list, const char* task_name){
 }
 
 /**
+ @brief Implementation of list_add_task_from_task
+*/
+
+void list_add_task_from_task(List* list, Task* task){
+
+    //checking parameters
+    if (list == NULL || task == NULL){
+        fprintf(stderr, "ERROR : in list_add_task_from_task() : invalid parameters.\n");
+        return;
+    }
+
+    //updating the list head pointer
+    task->next = list->head;
+    list->head = task;
+    list->size++;
+}
+
+/**
  @brief Implementation of list_get_size()
 */
 
