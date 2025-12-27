@@ -8,6 +8,8 @@ A simple yet powerful command-line task manager built purely in C, focusing on e
 *   ✅ **Module `task`:** Fully implemented and tested. Provides a robust, memory-safe API for all CRUD operations on individual task objects.
 *   ✅ **Module `list`:** Fully implemented. Provides a complete API for managing a singly linked list of tasks, including creation, destruction, addition, removal, and searching.
 *   ✅ **CLI (Command-Line Interface):** Fully implemented. Provides a robust interface, letting the user decides what to do
+*   ✅ **Data Persistance :** Fully implemented. Provides a csv file saving all the tasks provided as
+input from user.
 
 ## Features
 

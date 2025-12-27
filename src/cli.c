@@ -1,4 +1,5 @@
-#include "cli.h"
+#include "cli.h" // public api
+#include "file_io.h" // for save_list_to_csv()
 /**
  @brief Implementation of remove_newline()
  @param str - pointer to the first letter of the string
@@ -29,6 +30,12 @@ void cli_start(List* list){
         //Checking if the user wants to leave
         if (strcmp(input_buffer, "exit") == 0){
             program_on = false;
+            bool list_save = save_list_to_csv(list, "tasks.csv");
+
+            if (list_save == false){
+                fprintf(stderr, "ERROR : in cli_start() : failed to save tasks.\n");
+            }
+
             list_destroy(&list);
             break;
         }
